@@ -1,4 +1,4 @@
-51;13uloadkeys fi
+loadkeys fi
 cat /sys/firmware/efi/fw_platform_size
 ping ping.archlinux.org
 timedatectl set-timezone Europe/Helsinki
