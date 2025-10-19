@@ -1,0 +1,30 @@
+51;13uloadkeys fi
+cat /sys/firmware/efi/fw_platform_size
+ping ping.archlinux.org
+timedatectl set-timezone Europe/Helsinki
+fdisk /dev/sda
+o p w
+cfdisk
+mkfs.ext4 /dev/sda1
+mount /dev/sda1 /mnt
+pacstrap -K /mnt linux linux-firmware base base-devel grub dosfstools micro networkmanager intel-ucode
+genfstab -U /mnt > /mnt/etc/fstab
+arch-chroot /mnt
+ln -sf /usr/share/zoneinfo/Europe/Helsinki /etc/localtime
+date
+hwclock --systohc
+micro /etc/locale.gen
+locale-gen
+micro /etc/locale.conf LANG=fi_FI.UTF-8
+micro /etc/vconsole.conf KEYMAP=fi
+micro /etc/hostname
+passwd
+useradd -mG wheel liivai
+passwd liivai
+EDITOR=micro visudo
+uncomment wheel group
+systemctl enable NetworkManager
+grub-install /dev/sda --recheck
+grub-mkconfig -o /boot/grub/grub.cfg
+exit
+reboot

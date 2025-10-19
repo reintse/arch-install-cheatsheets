@@ -1,0 +1,45 @@
+micro /etc/resolv.conf
+nameserver 8.8.8.8
+nameserver 1.1.1.1
+
+sudo pacman -S --needed git base-devel
+git clone https://aur.archlinux.org/yay.git
+cd yay
+makepkg -si
+yay eww
+yay discord-canary
+yay waterfox
+yay linux-user-repository-bin
+yay prism
+yay itgmania
+yay clone hero
+yay yarg yarc
+yay millennium
+curl -fsSL https://raw.githubusercontent.com/spicetify/cli/main/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/spicetify/marketplace/main/resources/install.sh | sh
+sh -c "$(curl -sS https://raw.githubusercontent.com/Vendicated/VencordInstaller/main/install.sh)"
+
+xdg-user-dirs
+xdg-user-dirs-update
+
+https://madmalik.github.io/mononoki/
+https://www.nerdfonts.com/font-downloads OVERPASS
+move to /usr/share/fonts
+fc-cache -f -v
+
+git clone https://github.com/diinki/diinki-retrofuture
+Copy all folders in the diinki-retrofuture/config directory to your local user .config directory (~/.config). Skip the hypr folder if you don't also want the hyprland config files.
+Copy the diinki-retro-dark folder in diinki-retrofuture/gtk_theme to your local .themes directory (~/.themes), you may need to create this directory manually.
+Use a text editor to edit the sway config file in ~/.config/sway/config. You need to edit the config to setup your wallpaper and monitor settings. I've commented the file with the steps.
+Enter dconf-editor in your terminal to open up the dconf gui program, search "gtk-theme", and set the theme value to diinki-retro-dark. You may also use dconf to set your icon theme and cursor theme to ones of your liking.
+
+sudo pacman -S steam spotify vscode
+
+https://wiki.archlinux.org/title/Linux_console/Keyboard_configuration
+https://wiki.archlinux.org/title/Mouse_buttons
+https://wiki.archlinux.org/title/Systemd
+https://wiki.archlinux.org/title/Help:Reading#Installation_of_packages
+https://wiki.archlinux.org/title/List_of_applications
+https://aur.archlinux.org/packages?O=0&K=
+https://archlinux.org/packages/
+https://wiki.archlinux.org/title/Command-line_shell
