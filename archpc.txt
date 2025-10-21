@@ -1,29 +1,36 @@
 sudo wipefs --all /dev/disk/by-id/usb-Kingston_DataTraveler_2.0_5B87070000E1-0:0
 sudo dd if=archlinux-2025.10.01-x86_64.iso of=/dev/sdc status=progress bs=4M conv=fsync
+
 loadkeys fi
-iwtctl device list
-iwctl station wlan0 scan
-iwctl station wlan0 get-networks
-iwctl station wlan0 connect nikolakuitu
+
+iwctl
+device list
+station wlan0 scan
+station wlan0 get-networks
+station wlan0 connect nikolakuitu
 exit
-ping archlinux.org
+ping ping.archlinux.org
+
 lsblk
 nvme format --lbaf=1 /dev/nvme0n1
-cfdisk /dev/nvme0n1
-5G
-2047
+cfdisk
+100M
+4G
+2048
+mkfs.ext4 /dev/nvme0n1p3
 mkfs.vfat -F32 /dev/nvme0n1p1
-mkfs.ext4 /dev/nvme0n1p2
-mount /dev/nvme0n1p2 /mnt
-mkdir -vp /mnt/boot
-mount /dev/nvmeon1p2 /mnt/boot
-mkdir -vp /mnt/home
-lsblk -pf /dev/nvme0n1
-pacstrap -K /mnt linux linux-firmware linux-headers base base-devel micro networkmanager grub efibootmgr os-prober bash-completion iwd amd-ucode
-genfstab -U /mnt > /mnt/etc/fstab
+mkswap /dev/nvme0n1p2
+
+mount /dev/nvme0n1p3 /mnt
+mount --mkdir /dev/nvmeon1p1 /mnt/boot/efi
+swapon /dev/nvme0n1p2
+
+pacstrap -K /mnt linux linux-firmware linux-headers base base-devel micro networkmanager bash-completion iwd linux-lts amd-ucode grub efibootmgr os-prober
+genfstab -U /mnt >> /mnt/etc/fstab
+
 arch-chroot /mnt
 echo "jaffateneriffa" > /etc/hostname
-timedatectl list-timezones grep Helsinki
+
 ln -sf /usr/share/zoneinfo/Europe/Helsinki /etc/localtime
 date
 hwclock --systohc
@@ -31,18 +38,18 @@ micro /etc/locale.gen
 locale-gen
 echo "LANG=en_US.UTF-8" > /etc/locale.conf
 echo "KEYMAP=fi" > /etc/vconsole.conf
+
 passwd
 useradd -mG wheel liivai
 passwd liivai
-
 EDITOR=micro visudo
-uncomment %wheel ALL(ALL) ALL
+uncomment "%wheel ALL(ALL) ALL"
 
 micro/etc/default/grub
 uncomment GRUB_DISABLE_OS_PROBER=false
-
 grub install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --recheck
 grub-mkconfig -o /boot/grub/grub.cfg
+
 systemctl enable systemd-networkd
 systemctl enable systemd-resolved
 systemctl enable NetworkManager
@@ -52,9 +59,11 @@ micro /etc/hosts
 ::1         localhost
 127.0.1.1   jaffateneriffa.localdomain   jaffateneriffa
 
-sudo pacman -S gnome sway wofi waybar nemo nautilus kitty dconf dconf-editor ly network-manager-applet bluez bluez-utils wget curl git fastfetch hyfetch alsa-utils pipewire pipewire-pulse pavucontrol wireplumber unzip nemo-fileroller ntfs-3g noto-fonts arch-install-scripts gparted reflector
+pacman -S sway wofi waybar nemo kitty dconf dconf-editor ly network-manager-applet bluez bluez-utils wget curl git fastfetch hyfetch alsa-utils pipewire pipewire-pulse pavucontrol wireplumber unzip nemo-fileroller ntfs-3g noto-fonts arch-install-scripts gparted reflector gnome
+
 systemctl enable ly
 systemctl enable bluetooth
+
 exit
 umount -R /mnt
 poweroff
