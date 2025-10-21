@@ -7,13 +7,14 @@ git clone https://aur.archlinux.org/yay.git
 cd yay
 makepkg -si
 yay eww
+
 yay discord-canary
 yay waterfox
 yay linux-user-repository-bin
 yay prism
 yay itgmania
 yay clone hero
-yay yarg yarc
+yay yarc
 yay millennium
 curl -fsSL https://raw.githubusercontent.com/spicetify/cli/main/install.sh | sh
 curl -fsSL https://raw.githubusercontent.com/spicetify/marketplace/main/resources/install.sh | sh
